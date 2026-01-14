@@ -17,5 +17,13 @@
   </dependencies>
   <build>
     <finalName>sample-java-project</finalName>
-  </build>
+    <plugins>
+        <!-- ... other plugins ... -->
+        <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-war-plugin</artifactId>
+	    <version>3.3.2</version>
+	</plugin>
+    </plugins>
+</build>
 </project>
