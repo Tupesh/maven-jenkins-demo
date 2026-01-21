@@ -22,11 +22,10 @@ pipeline {
 	}
         stage('Unit Test Stage') {
             steps {
-		steps{
 			echo "Test cases are running here in this stage"
 		}
             }
-        }
+
         stage('Deploy to dev') {
             steps {
                 echo "The build $BUILD_NUMBER is about to be deployed to the dev env"
