@@ -7,10 +7,10 @@ pipeline {
                 echo 'Compiling the code'
 		sh 'mvn clean package'
             }
-        }
+        
 
 	post { 
-        	success { 
+                success { 
         	    echo 'The compile has been successfull, now archeiving the artifact'
                     archiveArtifacts artifacts: '**/*.war', followSymlinks: false
 		}
@@ -18,6 +18,7 @@ pipeline {
 		   echo "Khuching paryo"
 		}
 
+	}
 	}
         stage('Unit Test Stage') {
             steps {
