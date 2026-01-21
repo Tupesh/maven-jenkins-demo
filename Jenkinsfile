@@ -36,6 +36,11 @@ pipeline {
 
         stage('Running Container') {
             steps {
+
+		sh '''
+			docker stop hamro-java-app || true
+			docker rm hamro-java-app || true
+		'''
                 echo "Running the container........."
 		sh 'docker run -d --name hamro-java-app -p 8090:8080 localregistry/java-app-image:"$BUILD_NUMBER" '
             }
