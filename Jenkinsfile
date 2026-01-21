@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    environment{
+	DockerCred=credentials('224e3e29-24e9-484e-8068-ac89c6cbe7d6')
+}
+
     stages {
         stage('Compile Stage') {
             steps {
@@ -51,9 +55,8 @@ pipeline {
 
 	stage('Dockerhub login'){
 		steps{
-			DockerCred=credentials('224e3e29-24e9-484e-8068-ac89c6cbe7d6')
-			sh'docker login -u $DockerCred_USR --password-stdin'
-			sh'docker push tupeshg/maven-demo:"$BUILD_NUMBER"'
+			sh'''docker login -u $DockerCred_USR --password-stdin
+			docker push tupeshg/maven-demo:"$BUILD_NUMBER"'''
 		}
 
 	post{
