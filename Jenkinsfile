@@ -54,8 +54,8 @@ pipeline {
 	      steps {
         	script {
           	   docker.withRegistry('', '224e3e29-24e9-484e-8068-ac89c6cbe7d6') {
-  		   docker.image("tupesh/maven-demo:$BUILD_NUMBER").push()
-                   docker.image("tupesh/maven-demo:latest").push()
+  		   docker.image("tupeshg/maven-demo:$BUILD_NUMBER").push()
+                   docker.image("tupeshg/maven-demo:latest").push()
 
 	 }
         }
