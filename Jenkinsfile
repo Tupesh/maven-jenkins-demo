@@ -47,6 +47,7 @@ pipeline {
             steps {
                 echo "tagging image copy...."
 		sh 'docker tag localregistry/java-app-image:"$BUILD_NUMBER" tupeshg/maven-demo:"$BUILD_NUMBER"'
+		sh 'docker tag localregistry/java-app-image:"$BUILD_NUMBER" tupeshg/maven-demo:latest'
             }
         }
 
