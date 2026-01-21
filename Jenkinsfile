@@ -47,7 +47,6 @@ pipeline {
             steps {
                 echo "tagging image copy...."
 		sh 'docker tag localregistry/java-app-image:"$BUILD_NUMBER" tupeshg/maven-demo:"$BUILD_NUMBER"'
-		sh 'docker tag localregistry/java-app-image:"$BUILD_NUMBER" tupeshg/maven-demo:latest'
             }
         }
 
@@ -56,7 +55,7 @@ pipeline {
         	script {
           	   docker.withRegistry('', '224e3e29-24e9-484e-8068-ac89c6cbe7d6') {
   		   docker.image("tupeshg/maven-demo:$BUILD_NUMBER").push()
-                   docker.image("tupeshg/maven-demo:latest").push()
+  		   docker.image("tupeshg/maven-demo:$BUILD_NUMBER").push('latest')
 
 	 }
         }
