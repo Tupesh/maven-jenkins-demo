@@ -29,7 +29,7 @@ pipeline {
         stage('Building Image') {
             steps {
                 echo "Building image from the dockerfile"
-		sh 'docker image build -t localregistry/java-app-image:"$BUILD_NUMBER . " '
+		sh 'docker build -t localregistry/java-app-image:"$BUILD_NUMBER" .'
             }
         }
 
