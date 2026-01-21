@@ -37,7 +37,7 @@ pipeline {
         stage('Trivy scan Image') {
             steps {
                 echo "Scanning image using trivy"
-		sh 'trivy image localregistry/java-app-image:"$BUILD_NUMBER" .'
+		sh 'trivy image localregistry/java-app-image:"$BUILD_NUMBER"'
             }
         }
 
