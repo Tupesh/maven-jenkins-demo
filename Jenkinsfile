@@ -42,16 +42,27 @@ pipeline {
         }
 
 
-        stage('Image push') {
+        stage('Image tagging') {
             steps {
-                echo "Pushing image to dockerhub"
-		
-		sh '''docker tag localregistry/java-app-image:"$BUILD_NUMBER" tupeshg/maven-demo:$BUILD_NUMBER
-		docker push tupeshg/maven-demo:$BUILD_NUMBER
-		'''
+                echo "tagging image copy...."
+		sh 'docker tag localregistry/java-app-image:"$BUILD_NUMBER" tupeshg/maven-demo:"$BUILD_NUMBER"'
             }
         }
 
+	stage('Dockerhub login'){
+		steps{
+			DockerCred=credentials('224e3e29-24e9-484e-8068-ac89c6cbe7d6')
+			sh'docker login -u $DockerCred_USR --password-stdin'
+			sh'docker push tupeshg/maven-demo:"$BUILD_NUMBER"'
+		}
+
+	post{
+		always{
+			sh 'docker logout'
+		}
+	}
+
+	}
         stage('Running Container') {
             steps {
 
