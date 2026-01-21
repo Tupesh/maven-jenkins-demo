@@ -8,20 +8,27 @@ pipeline {
 		sh 'mvn clean package'
             }
         }
-        stage('Attendance') {
+
+	post { 
+        	success { 
+        	    echo 'The compile has been successfull, now archeiving the artifact'
+                    archiveArtifacts artifacts: '**/*.war', followSymlinks: false
+		}
+		failure{
+		   echo "Khuching paryo"
+		}
+
+	}
+        stage('Unit Test Stage') {
             steps {
-                sh ''' 
-                    for i in {1..10}; do
-                        if [$i % 3 == 0]; then
-                            echo "Student $i present "
-                        fi
-                    done
-                '''
+		steps{
+			echo "Test cases are running here in this stage"
+		}
             }
         }
-        stage('Departure') {
+        stage('Deploy to dev') {
             steps {
-                echo "Go home everyone the $BUILD_NUMBER is over"
+                echo "The build $BUILD_NUMBER is about to be deployed to the dev env"
             }
         }
         
