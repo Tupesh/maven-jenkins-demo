@@ -41,6 +41,17 @@ pipeline {
             }
         }
 
+
+        stage('Image push') {
+            steps {
+                echo "Pushing image to dockerhub"
+		
+		sh '''docker tag localregistry/java-app-image:"$BUILD_NUMBER" tupeshg/maven-demo:$BUILD_NUMBER
+		docker push tupeshg/maven-demo:$BUILD_NUMBER
+		'''
+            }
+        }
+
         stage('Running Container') {
             steps {
 
