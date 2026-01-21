@@ -1,10 +1,6 @@
 pipeline {
     agent any
 
-    environment{
-        IMAGE: "tupeshg/maven-demo"
-	DockerCred=credentials('224e3e29-24e9-484e-8068-ac89c6cbe7d6')
-}
 
     stages {
         stage('Compile Stage') {
