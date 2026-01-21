@@ -26,6 +26,20 @@ pipeline {
 		}
             }
 
+        stage('Building Image') {
+            steps {
+                echo "Building image from the dockerfile"
+		sh 'docker image -t localregistry/java-app-image:"$BUILD_NUMBER . " '
+            }
+        }
+
+
+        stage('Running Container') {
+            steps {
+                echo "Running the container........."
+		sh 'docker run -d --name hamro-java-app -p 8090:8080 localregistry/java-app-image:"$BUILD_NUMBER" '
+            }
+        }
         stage('Deploy to dev') {
             steps {
                 echo "The build $BUILD_NUMBER is about to be deployed to the dev env"
