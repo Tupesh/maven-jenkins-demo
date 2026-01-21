@@ -2,6 +2,7 @@ pipeline {
     agent any
 
     environment{
+        IMAGE: "tupeshg/maven-demo"
 	DockerCred=credentials('224e3e29-24e9-484e-8068-ac89c6cbe7d6')
 }
 
@@ -53,19 +54,18 @@ pipeline {
             }
         }
 
-	stage('Dockerhub login'){
-		steps{
-			sh'''docker login -u $DockerCred_USR --password-stdin
-			docker push tupeshg/maven-demo:"$BUILD_NUMBER"'''
-		}
+	stage('Image Push') {
+	      steps {
+        	script {
+          	   docker.withRegistry('', 'dockerhub-tupesh') {
+  		   docker.image("tupesh/maven-demo:$BUILD_NUMBER").push()
+                   docker.image("tupesh/maven-demo:latest").push()
 
-	post{
-		always{
-			sh 'docker logout'
-		}
-	}
-
-	}
+	 }
+        }
+      }
+    }
+	
         stage('Running Container') {
             steps {
 
