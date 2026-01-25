@@ -62,7 +62,7 @@ pipeline {
       }
     }
 	
-        stage('Running Container') {
+        stage('Running Container on dev') {
             steps {
 
 		sh '''
@@ -78,8 +78,54 @@ pipeline {
                 echo "The build $BUILD_NUMBER is about to be deployed to the dev env"
             }
         }
+
+ 	stage('deploy to prod env') {
+            steps {
+                 timeout(time:1, unit:'MINUTES'){
+                 input message: 'Approve Production deployment?'
+                 }
+                echo 'prod deployment'
+                sh '''
+                docker stop myapp-prod || true
+                docker rm  myapp-prod  || true
+                docker run -d --name myapp-prod -p 8091:8080  tupeshg/maven-demo:"$BUILD_NUMBER"
+                  '''
+            }
         
         
     }
-}
 
+	post { 
+        always { 
+            mail to: 'tupeshghimire@gmail.com',
+            subject: "Build completed",
+            body: "Please go to ${BUILD_URL} and verify the build"        
+	}
+       	success {
+            mail bcc: '', body: """Hello Team,
+
+		Build #$BUILD_NUMBER is successful, please go through the url
+
+		$BUILD_URL
+
+		and verify the details.
+
+		Regards,
+		DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'tupeshghimire@gmail.com'
+		}
+	failure {
+	mail bcc: '', body: """Hi Team,
+            
+	Build #$BUILD_NUMBER is unsuccessful, please go through the url
+
+	$BUILD_URL
+
+	and verify the details.
+
+	Regards,
+	DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'tupeshghimire@gmail.com'
+	}
+    }
+
+
+}}
