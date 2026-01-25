@@ -97,33 +97,21 @@ pipeline {
 
 	post { 
         always { 
-            mail to: 'tupeshghimire@gmail.com',
-            subject: "Build completed",
-            body: "Please go to ${BUILD_URL} and verify the build"        
+		echo "The build process has ended"
 	}
        	success {
-            mail bcc: '', body: """Hello Team,
+		echo "Build #$BUILD_NUMBER is successful, please go through the url"
 
-		Build #$BUILD_NUMBER is successful, please go through the url
+		echo "$BUILD_URL"
 
-		$BUILD_URL
-
-		and verify the details.
-
-		Regards,
-		DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD SUCCESS NOTIFICATION', to: 'tupeshghimire@gmail.com'
 		}
+
 	failure {
-	mail bcc: '', body: """Hi Team,
             
-	Build #$BUILD_NUMBER is unsuccessful, please go through the url
+	echo  "Build #$BUILD_NUMBER is unsuccessful, please go through the url"
 
-	$BUILD_URL
+	echo "$BUILD_URL"
 
-	and verify the details.
-
-	Regards,
-	DevOps Team""", cc: '', from: '', replyTo: '', subject: 'BUILD FAILED NOTIFICATION', to: 'tupeshghimire@gmail.com'
 	}
     }
 
